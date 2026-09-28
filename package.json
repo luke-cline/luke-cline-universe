@@ -1,0 +1,13 @@
+{
+  "name": "luke-cline-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Luke Cline · Visionary CEO & Founder",
+  "scripts": {
+    "dev": "bash scripts/dev.sh",
+    "start": "serve ."
+  },
+  "devDependencies": {
+    "serve": "^14.2.1"
+  }
+}

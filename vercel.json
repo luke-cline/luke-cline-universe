@@ -1,0 +1,1 @@
+{"buildCommand":"sed -i \"s|__SITE__|https://${VERCEL_PROJECT_PRODUCTION_URL:-$VERCEL_URL}|g\" index.html","outputDirectory":".","cleanUrls":true}
