@@ -889,6 +889,21 @@ const CONFIG = {
 
   document.querySelectorAll("a.pdf[download]").forEach(function (a) { a.href = "luke-cline-story.pdf"; });
   var rooms = ["personal", "business"];
+  function setActiveNav(hash) {
+    var navLinks = document.querySelectorAll(".links a");
+    var currentRoom = document.body.dataset.room || "personal";
+    navLinks.forEach(function (a) {
+      a.removeAttribute("aria-current");
+      var href = a.getAttribute("href") || "";
+      var targetRoom = href.replace("#", "");
+      if (href === "#" + currentRoom || targetRoom === currentRoom) {
+        a.setAttribute("aria-current", "page");
+      }
+      if (href.indexOf("#") === 0 && hash && href === "#" + hash) {
+        a.setAttribute("aria-current", "page");
+      }
+    });
+  }
   function route() {
     var h = location.hash.slice(1), room = rooms.indexOf(h) > -1 ? h : (h.indexOf("p-") === 0 ? "personal" : h.indexOf("b-") === 0 ? "business" : "personal");
     document.querySelectorAll(".view").forEach(function (v) { v.hidden = v.id !== room; });
@@ -896,6 +911,7 @@ const CONFIG = {
     else { document.body.setAttribute("data-room", room); document.title = "Luke Cline, " + (room === "personal" ? "The Man" : "The Work"); }
     if (rooms.indexOf(h) > -1 || !h) window.scrollTo(0, 0);
     else { var t = document.getElementById(h); if (t) t.scrollIntoView(); }
+    setActiveNav(h);
   }
   window.addEventListener("hashchange", route);
 
