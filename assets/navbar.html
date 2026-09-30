@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>Luke Cline Universe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: hsl(0 0% 2%);
+    --bar-base: hsl(0 0% 3.5%);
+    --text: hsl(0 0% 95%);
+    --text-dim: hsl(0 0% 66%);
+    --chrome: hsl(0 0% 92%);
+    --chrome-mid: hsl(0 0% 58%);
+    --chrome-soft: hsl(0 0% 62% / 0.5);
+    --red: hsl(356 94% 48%);
+    --red-hot: hsl(352 100% 60%);
+    --red-deep: hsl(354 88% 20%);
+    --red-glow: hsl(356 100% 50% / 0.5);
+    --divider: hsl(0 0% 100% / 0.32);
+
+    --font-display: "Italiana", "Bodoni 72", Didot, "Didot LT STD", "Playfair Display", Georgia, serif;
+    --font-ui: "Jost", "Helvetica Neue", "Segoe UI", system-ui, sans-serif;
+
+    --bar-h: 7.5rem;
+    --pad-x: clamp(1.5rem, 4vw, 5rem);
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { height: 100%; }
+  body {
+    margin: 0;
+    min-height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-ui);
+    -webkit-font-smoothing: antialiased;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  /* ---------- Bar ---------- */
+  .nav {
+    position: relative;
+    width: 100%;
+    height: var(--bar-h);
+    margin-top: 12vh;
+    background: var(--bar-base);
+    isolation: isolate;
+    overflow: hidden;
+  }
+
+  /* Liquid metal: layered light, bent by turbulence so it flows like poured chrome */
+  .nav__liquid {
+    position: absolute;
+    inset: -20% -6%;
+    z-index: -3;
+    background:
+      radial-gradient(9% 34% at 46% 34%, var(--chrome) 0 10%, transparent 100%),
+      radial-gradient(16% 26% at 52% 48%, var(--chrome-mid), transparent 100%),
+      radial-gradient(15% 50% at 57% 66%, var(--red-hot) 0 12%, var(--red) 26%, var(--red-deep) 52%, transparent 100%),
+      radial-gradient(22% 40% at 34% 30%, var(--chrome-soft), transparent 100%),
+      radial-gradient(24% 46% at 72% 58%, var(--chrome-soft), transparent 100%),
+      linear-gradient(90deg, var(--bar-base), var(--bar-base));
+    filter: url(#liquid-warp) blur(1.2px);
+    animation: drift 26s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+
+  /* Legibility veil, darker at both ends where the type sits */
+  .nav__veil {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background:
+      linear-gradient(90deg, var(--bar-base) 4%, hsl(0 0% 3.5% / 0.7) 22%, transparent 40%, transparent 58%, hsl(0 0% 3.5% / 0.72) 78%, var(--bar-base) 97%),
+      linear-gradient(180deg, hsl(0 0% 0% / 0.3), transparent 40%, hsl(0 0% 0% / 0.4));
+  }
+
+  /* Fine grain so the metal never looks like a flat web gradient */
+  .nav__grain {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0.16;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+
+  /* Glowing hairlines */
+  .nav::before,
+  .nav::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .nav::before {
+    top: 0;
+    background: linear-gradient(90deg, transparent 0%, var(--chrome-soft) 14%, var(--chrome) 50%, var(--chrome-soft) 86%, var(--red) 100%);
+    box-shadow: 0 0 26px 1px var(--red-glow);
+  }
+  .nav::after {
+    bottom: 0;
+    background: linear-gradient(90deg, var(--red) 0%, var(--red-deep) 30%, var(--chrome-soft) 52%, var(--red-deep) 74%, var(--red) 100%);
+    box-shadow: 0 0 26px 1px var(--red-glow);
+  }
+
+  .nav__inner {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 0 var(--pad-x);
+  }
+
+  /* ---------- Wordmark ---------- */
+  .brand {
+    display: inline-block;
+    text-decoration: none;
+    border-radius: 0.25rem;
+    color: var(--text);
+  }
+  .brand__name {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(1.7rem, 2.6vw, 2.9rem);
+    letter-spacing: 0.16em;
+    line-height: 1;
+    white-space: nowrap;
+    padding-block: 0.15em;
+    /* silver sheen sweeps once on load, then rests */
+    background: linear-gradient(105deg,
+      var(--text) 0%, var(--text) 38%, var(--chrome-mid) 46%, var(--red-hot) 50%, var(--chrome-mid) 54%, var(--text) 62%, var(--text) 100%);
+    background-size: 260% 100%;
+    background-position: 100% 0;
+    -webkit-background-clip: text;
+            background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: sheen 2.6s var(--ease) 0.4s 1 forwards;
+    filter: drop-shadow(0 0 18px hsl(0 0% 0% / 0.8));
+  }
+
+  /* ---------- Links ---------- */
+  .links {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .links li { display: flex; align-items: center; }
+  .links li + li::before {
+    content: "";
+    width: 1px;
+    height: 1.6rem;
+    background: linear-gradient(180deg, transparent, var(--divider), transparent);
+  }
+  .links a {
+    position: relative;
+    display: block;
+    padding: 0.7rem clamp(1.1rem, 2.4vw, 2.8rem);
+    font-family: var(--font-ui);
+    font-weight: 300;
+    font-size: clamp(0.95rem, 1.15vw, 1.2rem);
+    letter-spacing: 0.14em;
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color 0.4s var(--ease);
+  }
+  .links a::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0.1rem;
+    width: 1.4rem;
+    height: 1px;
+    background: var(--red-hot);
+    box-shadow: 0 0 10px var(--red-glow);
+    transform: translateX(-50%) scaleX(0);
+    transition: transform 0.5s var(--ease);
+  }
+  .links a:hover { color: var(--text); }
+  .links a[aria-current="page"] { color: var(--text); font-weight: 400; }
+  .links a:hover::after,
+  .links a[aria-current="page"]::after { transform: translateX(-50%) scaleX(1); }
+
+  .brand:focus-visible,
+  .links a:focus-visible {
+    outline: 1px solid var(--text);
+    outline-offset: 5px;
+  }
+
+  /* ---------- Motion ---------- */
+  @keyframes drift {
+    from { transform: translateX(-2.5%); }
+    to   { transform: translateX(2.5%); }
+  }
+  @keyframes sheen {
+    to { background-position: 0% 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .nav__liquid { animation: none; }
+    .brand__name { animation: none; background-position: 0% 0; }
+    .links a, .links a::after { transition: none; }
+  }
+
+  /* ---------- Tablet ---------- */
+  @media (max-width: 62rem) {
+    :root { --bar-h: 6.5rem; }
+    .links a { padding-inline: 0.95rem; letter-spacing: 0.1em; }
+  }
+
+  /* ---------- Mobile ---------- */
+  @media (max-width: 42rem) {
+    .nav { height: auto; }
+    .nav__inner {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.4rem;
+      padding-block: 1.3rem 0.9rem;
+    }
+    .brand__name { font-size: 1.7rem; letter-spacing: 0.12em; }
+    .links { width: 100%; justify-content: space-between; }
+    .links a { padding: 0.6rem 0.4rem; font-size: 0.95rem; letter-spacing: 0.06em; }
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="liquid-warp" x="-10%" y="-30%" width="120%" height="160%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.0035 0.02" numOctaves="3" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="130" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="grain-noise">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+    </filter>
+  </defs>
+</svg>
+
+<header class="nav">
+  <div class="nav__liquid" aria-hidden="true"></div>
+  <div class="nav__veil" aria-hidden="true"></div>
+  <svg class="nav__grain" width="100%" height="100%" aria-hidden="true"><rect width="100%" height="100%" filter="url(#grain-noise)"/></svg>
+
+  <div class="nav__inner">
+    <a class="brand" href="#top" aria-label="Luke Cline Universe, home">
+      <span class="brand__name">Luke Cline Universe</span>
+    </a>
+
+    <nav aria-label="Primary">
+      <ul class="links">
+        <li><a href="#story" aria-current="page">Story</a></li>
+        <li><a href="#people">People</a></li>
+        <li><a href="#music">Music</a></li>
+        <li><a href="#work">The Work</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+  (function () {
+    var links = document.querySelectorAll(".links a");
+
+    function setActive(hash) {
+      links.forEach(function (a) {
+        if (a.getAttribute("href") === hash) a.setAttribute("aria-current", "page");
+        else a.removeAttribute("aria-current");
+      });
+    }
+
+    links.forEach(function (a) {
+      a.addEventListener("click", function () { setActive(a.getAttribute("href")); });
+    });
+    window.addEventListener("hashchange", function () { setActive(window.location.hash); });
+    if (window.location.hash) setActive(window.location.hash);
+  })();
+</script>
+</body>
+</html>

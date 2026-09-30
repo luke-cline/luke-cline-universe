@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>Luke Cline</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: hsl(0 0% 2%);
+    --bar-base: hsl(0 0% 3.5%);
+    --text: hsl(0 0% 95%);
+    --text-dim: hsl(0 0% 68%);
+    --text-faint: hsl(0 0% 48%);
+    --chrome: hsl(0 0% 90%);
+    --chrome-soft: hsl(0 0% 62% / 0.5);
+    --red: hsl(356 94% 50%);
+    --red-hot: hsl(352 100% 62%);
+    --red-deep: hsl(354 88% 18%);
+    --red-glow: hsl(356 100% 50% / 0.5);
+    --divider: hsl(0 0% 100% / 0.16);
+
+    --font-display: "Italiana", "Bodoni 72", Didot, "Didot LT STD", "Playfair Display", Georgia, serif;
+    --font-ui: "Jost", "Helvetica Neue", "Segoe UI", system-ui, sans-serif;
+
+    --pad-x: clamp(1.5rem, 4vw, 5rem);
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --liquid-blur: 16px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { height: 100%; background: var(--bg); }
+  body {
+    margin: 0;
+    min-height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    color: var(--text);
+    font-family: var(--font-ui);
+    -webkit-font-smoothing: antialiased;
+    background: var(--bg);
+  }
+  main { flex: 1; min-height: 60vh; }
+
+  /* ---------- Shared liquid layers ---------- */
+  .liquid { position: absolute; inset: 0; z-index: -3; overflow: hidden; }
+  .liquid canvas { display: block; width: 100%; height: 100%; filter: blur(var(--liquid-blur)); transform: scale(1.08); }
+  .liquid--fallback {
+    background:
+      radial-gradient(10% 60% at 46% 40%, var(--chrome), transparent 100%),
+      radial-gradient(14% 70% at 57% 62%, var(--red), var(--red-deep) 60%, transparent 100%),
+      radial-gradient(26% 80% at 30% 40%, var(--chrome-soft), transparent 100%),
+      var(--bar-base);
+  }
+  .grain { position: absolute; inset: 0; z-index: -1; opacity: 0.14; mix-blend-mode: overlay; pointer-events: none; }
+
+  /* ---------- Footer ---------- */
+  .foot {
+    position: relative; isolation: isolate; overflow: hidden;
+    background: var(--bar-base);
+    padding: clamp(3.5rem, 8vw, 6.5rem) var(--pad-x) calc(2rem + env(safe-area-inset-bottom, 0px));
+  }
+  .foot__veil {
+    position: absolute; inset: 0; z-index: -2;
+    background:
+      linear-gradient(90deg, var(--bar-base) 8%, hsl(0 0% 3.5% / 0.5) 55%, hsl(0 0% 3.5% / 0.75) 100%),
+      linear-gradient(180deg, transparent 45%, hsl(0 0% 0% / 0.65));
+  }
+  .foot::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px; z-index: 1;
+    background: linear-gradient(90deg, var(--red) 0%, var(--red-deep) 30%, var(--chrome-soft) 52%, var(--red-deep) 74%, var(--red) 100%);
+    box-shadow: 0 0 26px 1px var(--red-glow);
+  }
+  .foot__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(2.5rem, 6vw, 7rem);
+    max-width: 90rem; margin: 0 auto;
+  }
+  .foot__name {
+    margin: 0 0 1.4rem;
+    font-family: var(--font-display); font-weight: 400;
+    font-size: clamp(2.4rem, 4.4vw, 4.4rem);
+    letter-spacing: 0.14em; line-height: 1;
+    background: linear-gradient(105deg, var(--text) 30%, var(--text-faint) 100%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; color: transparent;
+  }
+  .foot__tag { margin: 0; max-width: 26rem; font-weight: 300; font-size: clamp(1rem, 1.2vw, 1.15rem); line-height: 1.7; letter-spacing: 0.02em; color: var(--text-dim); }
+  .foot__title { margin: 0 0 1.5rem; font-family: var(--font-display); font-weight: 400; font-size: 1.35rem; letter-spacing: 0.1em; color: var(--text); }
+  .foot__list { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.35rem; }
+  .foot__link {
+    position: relative; display: inline-block; padding: 0.35rem 0;
+    font: inherit; font-weight: 300; font-size: 1.02rem; letter-spacing: 0.06em;
+    color: var(--text-dim); text-decoration: none;
+    background: none; border: 0; cursor: pointer; text-align: left;
+    transition: color 0.4s var(--ease);
+  }
+  .foot__link::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0.1rem; height: 1px;
+    background: var(--red-hot); box-shadow: 0 0 10px var(--red-glow);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.5s var(--ease);
+  }
+  .foot__link:hover { color: var(--text); }
+  .foot__link:hover::after { transform: scaleX(1); }
+  .foot__base {
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
+    gap: 1rem 2rem; max-width: 90rem;
+    margin: clamp(3rem, 6vw, 5.5rem) auto 0; padding-top: 1.6rem;
+    border-top: 1px solid var(--divider);
+    font-weight: 300; font-size: 0.9rem; letter-spacing: 0.06em; color: var(--text-faint);
+  }
+  .foot__base p { margin: 0; }
+
+  .foot__link:focus-visible,
+  .dialog__close:focus-visible, .dialog__mail:focus-visible, .dialog__copy:focus-visible {
+    outline: 1px solid var(--text); outline-offset: 5px;
+  }
+
+  /* ---------- Contact dialog ---------- */
+  .dialog {
+    width: min(92vw, 30rem); padding: 2.4rem 2.2rem 2rem;
+    color: var(--text); background: var(--bar-base);
+    border: 1px solid var(--red-deep); border-radius: 0;
+    box-shadow: 0 0 60px hsl(356 100% 50% / 0.18), 0 30px 80px hsl(0 0% 0% / 0.7);
+  }
+  .dialog::backdrop { background: hsl(0 0% 0% / 0.72); backdrop-filter: blur(6px); }
+  .dialog[open] { animation: rise 0.5s var(--ease); }
+  .dialog__title { margin: 0 0 0.6rem; font-family: var(--font-display); font-weight: 400; font-size: 2rem; letter-spacing: 0.1em; }
+  .dialog__lede { margin: 0 0 1.8rem; font-weight: 300; line-height: 1.6; color: var(--text-dim); }
+  .dialog__row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 0; border-top: 1px solid var(--divider); border-bottom: 1px solid var(--divider); }
+  .dialog__mail { font-weight: 300; letter-spacing: 0.04em; color: var(--text); text-decoration: none; overflow-wrap: anywhere; }
+  .dialog__mail:hover { color: var(--red-hot); }
+  .dialog__copy, .dialog__close {
+    font: inherit; font-weight: 300; font-size: 0.9rem; letter-spacing: 0.08em;
+    color: var(--text-dim); background: none; border: 0; cursor: pointer; padding: 0.3rem 0;
+    transition: color 0.4s var(--ease);
+  }
+  .dialog__copy:hover, .dialog__close:hover { color: var(--text); }
+  .dialog__close { position: absolute; top: 1rem; right: 1.2rem; }
+
+  @keyframes rise { from { opacity: 0; transform: translateY(0.75rem); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .dialog[open] { animation: none; }
+    .foot__link, .foot__link::after, .dialog__copy, .dialog__close { transition: none; }
+  }
+
+  @media (max-width: 52rem) {
+    .foot__grid { grid-template-columns: 1fr 1fr; row-gap: 3rem; }
+    .foot__brand { grid-column: 1 / -1; }
+  }
+  @media (max-width: 30rem) {
+    .foot__grid { grid-template-columns: 1fr; }
+    .foot__base { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="grain-noise">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+    </filter>
+  </defs>
+</svg>
+
+<main id="top"></main>
+
+<footer class="foot">
+  <div class="liquid liquid--fallback" aria-hidden="true"><canvas data-liquid="foot"></canvas></div>
+  <div class="foot__veil" aria-hidden="true"></div>
+  <svg class="grain" width="100%" height="100%" aria-hidden="true"><rect width="100%" height="100%" filter="url(#grain-noise)"/></svg>
+
+  <div class="foot__grid">
+    <div class="foot__brand">
+      <h2 class="foot__name">Luke Cline</h2>
+      <p class="foot__tag">Visionary CEO and Founder, building for a multiplanetary future. Los Angeles.</p>
+    </div>
+
+    <nav aria-labelledby="foot-rooms">
+      <h3 class="foot__title" id="foot-rooms">Rooms</h3>
+      <ul class="foot__list">
+        <li><a class="foot__link" href="/#personal">The Man</a></li>
+        <li><a class="foot__link" href="/#business">The Work</a></li>
+        <li><a class="foot__link" href="/luke-cline-story.pdf" download>The story, as PDF</a></li>
+        <li><a class="foot__link" href="/#gate">Start over</a></li>
+      </ul>
+    </nav>
+
+    <nav aria-labelledby="foot-elsewhere">
+      <h3 class="foot__title" id="foot-elsewhere">Elsewhere</h3>
+      <ul class="foot__list">
+        <li><a class="foot__link" href="https://www.instagram.com/luke.c.cline" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+        <li><a class="foot__link" href="https://x.com/lukeccline" target="_blank" rel="noopener noreferrer">X</a></li>
+        <li><a class="foot__link" href="https://www.tiktok.com/@lukeccline" target="_blank" rel="noopener noreferrer">TikTok</a></li>
+        <li><button class="foot__link" type="button" id="open-contact" aria-haspopup="dialog">Write to me</button></li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="foot__base">
+    <p>&copy; 2026 Luke Cline. All rights reserved.</p>
+    <a class="foot__link" href="/#personal">Back to top</a>
+  </div>
+</footer>
+
+<dialog class="dialog" id="contact" aria-labelledby="contact-title">
+  <button class="dialog__close" type="button" id="close-contact" aria-label="Close">Close</button>
+  <h2 class="dialog__title" id="contact-title">Write to me</h2>
+  <p class="dialog__lede">Every message is read. I answer the ones that matter.</p>
+  <div class="dialog__row">
+    <a class="dialog__mail" href="mailto:clineluke39@outlook.com">clineluke39@outlook.com</a>
+    <button class="dialog__copy" type="button" id="copy-mail" data-email="clineluke39@outlook.com">Copy</button>
+  </div>
+</dialog>
+
+<script>
+/* ---------- Liquid chrome (WebGL). Reads colors from the CSS tokens. ---------- */
+(function () {
+  var VERT = "attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);}";
+  var FRAG = [
+    "#ifdef GL_FRAGMENT_PRECISION_HIGH",
+    "precision highp float;",
+    "#else",
+    "precision mediump float;",
+    "#endif",
+    "uniform vec2 uRes;uniform float uT,uSeed,uInt,uCx,uMask,uFlow;",
+    "uniform vec3 uBase,uSilver,uRed,uRedDeep;",
+    "float hash(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}",
+    "float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);",
+    " return mix(mix(hash(i),hash(i+vec2(1.,0.)),f.x),mix(hash(i+vec2(0.,1.)),hash(i+vec2(1.,1.)),f.x),f.y);}",
+    "float fbm(vec2 p){float v=0.,a=.5;mat2 m=mat2(1.6,1.2,-1.2,1.6);",
+    " for(int i=0;i<4;i++){v+=a*noise(p);p=m*p;a*=.5;}return v;}",
+    "float height(vec2 p){float t=uT*.05;",
+    " vec2 q=vec2(fbm(p+vec2(0.,t)),fbm(p+vec2(5.2,1.3)-t));",
+    " vec2 r=vec2(fbm(p+2.2*q+vec2(1.7,9.2)+t*.7),fbm(p+2.2*q+vec2(8.3,2.8)-t*.5));",
+    " return fbm(p+2.4*r);}",
+    "void main(){",
+    " vec2 uv=gl_FragCoord.xy/uRes;float asp=uRes.x/uRes.y;",
+    " vec2 p=vec2(uv.x*asp,uv.y)*uFlow+vec2(uSeed,uSeed*.7);",
+    " float e=.02;",
+    " float h=height(p),hx=height(p+vec2(e,0.)),hy=height(p+vec2(0.,e));",
+    " vec3 n=normalize(vec3((h-hx)/e*.32,(h-hy)/e*.32,1.));",
+    " vec3 rr=reflect(vec3(0.,0.,-1.),n);",
+    " float band=sin(rr.y*3.6+rr.x*2.2+h*2.4)*.5+.5;",
+    " float bright=smoothstep(.7,1.,band);",
+    " float dark=smoothstep(.05,.75,band);",
+    " vec3 sil=mix(uBase,uSilver*(.35+.65*dark),dark*.9);",
+    " sil=mix(sil,uSilver,bright*.95);",
+    " float spec=pow(max(dot(n,normalize(vec3(-.35,.55,.75))),0.),60.);",
+    " sil+=spec*.8;",
+    " float rm=smoothstep(.34,.58,fbm(p*.5+vec2(3.,1.)+uT*.02));",
+    " rm*=exp(-pow((uv.x-uCx-.06)*uMask*.9,2.))*1.5;",
+    " vec3 redc=mix(uRedDeep,uRed,smoothstep(.15,.85,band));",
+    " redc+=uRed*bright*.7+spec*.6;",
+    " vec3 col=mix(sil,redc,clamp(rm,0.,1.));",
+    " float m=mix(.1,1.,exp(-pow((uv.x-uCx)*uMask,2.)));",
+    " col=mix(uBase,col,m*uInt);",
+    " gl_FragColor=vec4(col,1.);",
+    "}"
+  ].join("\n");
+
+  var probe = document.createElement("span");
+  probe.style.display = "none";
+  document.body.appendChild(probe);
+  function token(name) {
+    probe.style.color = "var(" + name + ")";
+    var m = getComputedStyle(probe).color.match(/[\d.]+/g) || [0, 0, 0];
+    var c = m.map(Number);
+    if (/color\(/.test(getComputedStyle(probe).color)) return [c[0], c[1], c[2]];
+    return [c[0] / 255, c[1] / 255, c[2] / 255];
+  }
+  var COL = {
+    base: token("--bar-base"), silver: token("--chrome"),
+    red: token("--red"), deep: token("--red-deep")
+  };
+
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var rigs = [];
+
+  function build(canvas, o) {
+    var gl = canvas.getContext("webgl", { antialias: false, alpha: false, preserveDrawingBuffer: true, powerPreference: "low-power" });
+    if (!gl) { canvas.style.display = "none"; return null; }
+    function sh(type, src) {
+      var s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+      return gl.getShaderParameter(s, gl.COMPILE_STATUS) ? s : null;
+    }
+    var vs = sh(gl.VERTEX_SHADER, VERT), fs = sh(gl.FRAGMENT_SHADER, FRAG);
+    if (!vs || !fs) { canvas.style.display = "none"; return null; }
+    var pr = gl.createProgram();
+    gl.attachShader(pr, vs); gl.attachShader(pr, fs); gl.linkProgram(pr);
+    if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) { canvas.style.display = "none"; return null; }
+    gl.useProgram(pr);
+    var buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+    var loc = gl.getAttribLocation(pr, "a");
+    gl.enableVertexAttribArray(loc);
+    gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+    var U = {};
+    ["uRes","uT","uSeed","uInt","uCx","uMask","uFlow","uBase","uSilver","uRed","uRedDeep"].forEach(function (k) { U[k] = gl.getUniformLocation(pr, k); });
+    gl.uniform3fv(U.uBase, COL.base); gl.uniform3fv(U.uSilver, COL.silver);
+    gl.uniform3fv(U.uRed, COL.red); gl.uniform3fv(U.uRedDeep, COL.deep);
+    gl.uniform1f(U.uSeed, o.seed); gl.uniform1f(U.uInt, o.int);
+    gl.uniform1f(U.uCx, o.cx); gl.uniform1f(U.uMask, o.mask); gl.uniform1f(U.uFlow, o.flow);
+
+    var rig = { canvas: canvas, gl: gl, U: U, o: o, visible: true };
+    rig.resize = function () {
+      var r = canvas.getBoundingClientRect();
+      var s = Math.min(window.devicePixelRatio || 1, 1.5) * o.res;
+      var w = Math.max(2, Math.round(r.width * s)), h = Math.max(2, Math.round(r.height * s));
+      if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; }
+      gl.viewport(0, 0, w, h);
+      gl.uniform2f(U.uRes, w, h);
+    };
+    rig.draw = function (t) {
+      gl.uniform1f(U.uT, t);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    };
+    rig.resize();
+    if ("ResizeObserver" in window) new ResizeObserver(function () { rig.resize(); rig.draw(rig.t || 0); }).observe(canvas);
+    if ("IntersectionObserver" in window) new IntersectionObserver(function (e) { rig.visible = e[0].isIntersecting; }).observe(canvas);
+    return rig;
+  }
+
+  var OPTS = {
+    foot: { seed: 11.0, int: 0.8, cx: 0.7, mask: 1.8, flow: 0.45, res: 0.5 }
+  };
+  document.querySelectorAll("canvas[data-liquid]").forEach(function (c) {
+    var rig = build(c, OPTS[c.getAttribute("data-liquid")]);
+    if (rig) rigs.push(rig);
+  });
+
+  var start = performance.now(), last = 0;
+  function frame(now) {
+    if (now - last > 33) {
+      last = now;
+      var t = 12 + (now - start) / 1000;
+      rigs.forEach(function (r) { if (r.visible) { r.t = t; r.draw(t); } });
+    }
+    if (!document.hidden) requestAnimationFrame(frame);
+  }
+  rigs.forEach(function (r) { r.t = 12; r.draw(12); });
+  if (!reduce && rigs.length) requestAnimationFrame(frame);
+  document.addEventListener("visibilitychange", function () { if (!document.hidden && !reduce) requestAnimationFrame(frame); });
+})();
+
+/* ---------- Contact dialog ---------- */
+(function () {
+  var dlg = document.getElementById("contact");
+  var copyBtn = document.getElementById("copy-mail");
+  document.getElementById("open-contact").addEventListener("click", function () { dlg.showModal(); });
+  document.getElementById("close-contact").addEventListener("click", function () { dlg.close(); });
+  dlg.addEventListener("click", function (e) { if (e.target === dlg) dlg.close(); });
+  copyBtn.addEventListener("click", function () {
+    var done = function () {
+      copyBtn.textContent = "Copied";
+      setTimeout(function () { copyBtn.textContent = "Copy"; }, 1800);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(copyBtn.getAttribute("data-email")).then(done, function () {});
+    }
+  });
+})();
+</script>
+</body>
+</html>
