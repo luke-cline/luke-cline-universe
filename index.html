@@ -42,6 +42,7 @@
   --red-glow:hsl(356 100% 50% / 0.5);
   --divider:hsl(0 0% 100% / 0.16);
   --liquid-blur:2px;
+  --ease:cubic-bezier(0.22,1,0.36,1);
 }
 [data-room="personal"]{--bg:var(--paper);--fg:var(--paper);--mute:color-mix(in srgb,var(--paper) 64%,var(--ink));--line:color-mix(in srgb,var(--paper) 20%,transparent)}
 [data-room="business"]{--bg:var(--graphite);--fg:var(--paper);--mute:color-mix(in srgb,var(--paper) 62%,var(--ink));--line:color-mix(in srgb,var(--paper) 22%,transparent)}
@@ -274,7 +275,11 @@ footer{padding:2.5rem 0 calc(2.5rem + env(safe-area-inset-bottom));border-top:1p
   .nav[data-mobile-open="true"] .nav-menu{transform:translateY(0);opacity:1;pointer-events:auto}
   .nav[data-mobile-open="true"] .links li{opacity:1;transform:translateY(0)}
   .links{flex-direction:column;width:100%;gap:0;margin:0;padding:0}
-  .links li{border-bottom:1px solid var(--divider);opacity:0;transform:translateY(-10px);transition:opacity .4s var(--ease),transform .4s var(--ease)}
+  .links li{border-bottom:1px solid var(--divider);opacity:0;transform:translateY(-10px);transition:opacity .35s var(--ease),transform .35s var(--ease)}
+  .links li:nth-child(1){transition-delay:.05s}
+  .links li:nth-child(2){transition-delay:.09s}
+  .links li:nth-child(3){transition-delay:.13s}
+  .links li:nth-child(4){transition-delay:.17s}
   .links li:last-child{border-bottom:none}
   .links a{padding:1rem;letter-spacing:0;font-size:1.05rem;text-align:center;border-bottom:none}
   .nav__inner{align-items:center}
@@ -396,8 +401,8 @@ footer{padding:2.5rem 0 calc(2.5rem + env(safe-area-inset-bottom));border-top:1p
     </div>
   </header>
   <section class="hero">
-      <video class="hero-video hero-video-desktop" autoplay muted loop playsinline preload="none" poster="assets/hero-bg-desktop-poster.jpg"><source src="assets/hero-bg-desktop.mp4" type="video/mp4"></video>
-      <video class="hero-video hero-video-mobile" autoplay muted loop playsinline preload="none" poster="assets/hero-bg-mobile-poster.jpg"><source src="assets/hero-bg-mobile.mp4" type="video/mp4"></video>
+      <video class="hero-video hero-video-desktop" autoplay muted loop playsinline preload="auto" poster="assets/hero-bg-desktop-poster.jpg"><source src="assets/hero-bg-desktop.mp4" type="video/mp4"></video>
+      <video class="hero-video hero-video-mobile" autoplay muted loop playsinline preload="auto" poster="assets/hero-bg-mobile-poster.jpg"><source src="assets/hero-bg-mobile.mp4" type="video/mp4"></video>
       <div class="hero-glass"></div>
       <div class="hero-inner">
       <div class="intro">
@@ -489,8 +494,8 @@ footer{padding:2.5rem 0 calc(2.5rem + env(safe-area-inset-bottom));border-top:1p
     </div>
   </header>
   <section class="hero">
-      <video class="hero-video hero-video-desktop" autoplay muted loop playsinline preload="none" poster="assets/hero-bg-mobile-poster.jpg"><source src="assets/work-bg.mp4" type="video/mp4"></video>
-      <video class="hero-video hero-video-mobile" autoplay muted loop playsinline preload="none" poster="assets/hero-bg-mobile-poster.jpg"><source src="assets/work-bg.mp4" type="video/mp4"></video>
+      <video class="hero-video hero-video-desktop" autoplay muted loop playsinline preload="auto" poster="assets/hero-bg-mobile-poster.jpg"><source src="assets/work-bg.mp4" type="video/mp4"></video>
+      <video class="hero-video hero-video-mobile" autoplay muted loop playsinline preload="auto" poster="assets/hero-bg-mobile-poster.jpg"><source src="assets/work-bg.mp4" type="video/mp4"></video>
       <div class="hero-glass"></div>
       <div class="hero-inner">
       <div class="intro">
@@ -521,7 +526,7 @@ footer{padding:2.5rem 0 calc(2.5rem + env(safe-area-inset-bottom));border-top:1p
         <div><dt>Based</dt><dd>Los Angeles</dd></div>
       </dl>
       <div class="duo"><img loading="lazy" src="assets/phielia-when.webp" alt="Phielia: when the moment is still yours"><img loading="lazy" src="assets/phielia-billboard.webp" alt="Phielia brand concept: Intelligence that helps people act before the moment is gone"></div>
-<div class="demo-wrap"><div class="demo-header"><span class="lab">Demo</span><h3>SEE PHIELIA IN MOTION</h3><p class="demo-sub">Real-time intelligence, before the moment is gone. A brief look at how Phielia listens, understands, guides, and captures the moments that matter inside live enterprise conversations.</p></div><div class="demo-video"><video muted preload="none" controls playsinline poster="assets/phielia-billboard.webp" style="background:var(--ink)"><source src="assets/phielia-demo.mp4" type="video/mp4"><source src="assets/phielia-demo.mov" type="video/quicktime"></video></div></div><div class="row row-center"><a class="btn pdf" href="https://phielia.com" rel="noopener">Visit phielia.com</a></div>
+<div class="demo-wrap"><div class="demo-header"><span class="lab">Demo</span><h3>SEE PHIELIA IN MOTION</h3><p class="demo-sub">Real-time intelligence, before the moment is gone. A brief look at how Phielia listens, understands, guides, and captures the moments that matter inside live enterprise conversations.</p></div><div class="demo-video"><video muted preload="none" controls playsinline poster="assets/phielia-billboard.webp" style="background:var(--ink)"><source src="assets/phielia-demo.mp4" type="video/mp4"></video></div></div><div class="row row-center"><a class="btn pdf" href="https://phielia.com" rel="noopener">Visit phielia.com</a></div>
     </section>
 
     <section id="b-frendz"><span class="lab">Alongside</span><h2>Frendz</h2><div class="fz"><img src="assets/frendz-icon.webp" alt="Frendz app icon" width="96" height="96"><p>A separate consumer venture: a social discovery app with profiles, swiping, chat, music and AI moderation. Better vibes, none of the noise. Launching October 31, 2026.</p></div>
@@ -846,8 +851,8 @@ const CONFIG = {
 };
 (function () {
   var C = CONFIG, $ = function (q) { return document.querySelector(q); };
-  document.querySelectorAll('.hero-video').forEach(function(v){v.playbackRate=0.5});
-  function fixVideo(){var views=document.querySelectorAll('.view');views.forEach(function(v){if(!v.hidden){var vids=v.querySelectorAll('.hero-video');vids.forEach(function(vEl){vEl.playbackRate=0.5;var hero=vEl.closest('.hero');if(hero&&hero.offsetHeight>0){vEl.style.height=hero.offsetHeight+'px'}})}});requestAnimationFrame(function(){var rv=document.querySelectorAll('.view');rv.forEach(function(v){if(!v.hidden){var vids=v.querySelectorAll('.hero-video');vids.forEach(function(vEl){var hero=vEl.closest('.hero');if(hero&&hero.offsetHeight>0){vEl.style.height=hero.offsetHeight+'px'}})}})})}document.addEventListener('DOMContentLoaded',fixVideo);window.addEventListener('load',fixVideo);if(document.fonts&&document.fonts.ready){document.fonts.ready.then(fixVideo)}window.addEventListener('resize',fixVideo);window.addEventListener('hashchange',function(){setTimeout(fixVideo,150)});
+  document.querySelectorAll('.hero-video').forEach(function(v){v.playbackRate=0.5;if(v.play){v.play().catch(function(){});}});
+  function fixVideo(){var views=document.querySelectorAll('.view');views.forEach(function(v){if(!v.hidden){var vids=v.querySelectorAll('.hero-video');vids.forEach(function(vEl){vEl.playbackRate=0.5;if(vEl.play){vEl.play().catch(function(){})}var hero=vEl.closest('.hero');if(hero&&hero.offsetHeight>0){vEl.style.height=hero.offsetHeight+'px'}})}});requestAnimationFrame(function(){var rv=document.querySelectorAll('.view');rv.forEach(function(v){if(!v.hidden){var vids=v.querySelectorAll('.hero-video');vids.forEach(function(vEl){if(vEl.play){vEl.play().catch(function(){})}var hero=vEl.closest('.hero');if(hero&&hero.offsetHeight>0){vEl.style.height=hero.offsetHeight+'px'}})}})})}document.addEventListener('DOMContentLoaded',fixVideo);window.addEventListener('load',fixVideo);if(document.fonts&&document.fonts.ready){document.fonts.ready.then(fixVideo)}window.addEventListener('resize',fixVideo);window.addEventListener('hashchange',function(){setTimeout(fixVideo,150)});
   var el = function (t, c, h) { var e = document.createElement(t); if (c) e.className = c; if (h != null) e.innerHTML = h; return e; };
   var last = "", grid, box = $("#people");
   C.people.forEach(function (p) {
@@ -914,20 +919,26 @@ const CONFIG = {
 
 /* ==================== Navbar scroll tuck + mobile menu ==================== */
 (function() {
-  var navbar = document.querySelector(".nav");
   var menuButtons = document.querySelectorAll(".nav-toggle");
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var lastScroll = 0;
   var ticking = false;
-  var THRESHOLD = 8;
   var DIRECTION_THRESHOLD = 5;
+
+  function getVisibleNav() {
+    var navs = document.querySelectorAll(".nav");
+    for (var i = 0; i < navs.length; i++) {
+      if (navs[i].offsetParent !== null) return navs[i];
+    }
+    return navs[0] || null;
+  }
 
   function updateNav() {
     if (reduce) return;
     var currentScroll = window.pageYOffset || document.documentElement.scrollTop;
     var delta = currentScroll - lastScroll;
     if (Math.abs(delta) < DIRECTION_THRESHOLD) { ticking = false; return; }
-    // Don't tuck when mobile menu is open
+    var navbar = getVisibleNav();
     var isOpen = navbar && navbar.getAttribute("data-mobile-open") === "true";
     if (!isOpen) {
       if (currentScroll > 120 && delta > 0) {
@@ -951,20 +962,21 @@ const CONFIG = {
 
   window.addEventListener("scroll", requestTick, { passive: true });
 
-  // Hamburger toggle
+  // Hamburger toggle — use closest nav per button so both rooms work
   menuButtons.forEach(function(btn) {
     btn.addEventListener("click", function() {
+      var nav = btn.closest(".nav");
       var isExpanded = btn.getAttribute("aria-expanded") === "true";
       if (isExpanded) {
         btn.setAttribute("aria-expanded", "false");
         btn.setAttribute("aria-label", "Open navigation");
-        navbar.setAttribute("data-mobile-open", "false");
+        nav.setAttribute("data-mobile-open", "false");
         document.body.style.overflow = "";
       } else {
         btn.setAttribute("aria-expanded", "true");
         btn.setAttribute("aria-label", "Close navigation");
-        navbar.setAttribute("data-mobile-open", "true");
-        navbar.setAttribute("data-tucked", "false");
+        nav.setAttribute("data-mobile-open", "true");
+        nav.setAttribute("data-tucked", "false");
         document.body.style.overflow = "hidden";
       }
     });
@@ -974,11 +986,12 @@ const CONFIG = {
   document.addEventListener("click", function(e) {
     var link = e.target.closest(".links a");
     if (!link) return;
-    var openBtn = document.querySelector(".nav-toggle[aria-expanded='true']");
+    var nav = link.closest(".nav");
+    var openBtn = nav.querySelector(".nav-toggle[aria-expanded='true']");
     if (openBtn) {
       openBtn.setAttribute("aria-expanded", "false");
       openBtn.setAttribute("aria-label", "Open navigation");
-      navbar.setAttribute("data-mobile-open", "false");
+      nav.setAttribute("data-mobile-open", "false");
       document.body.style.overflow = "";
     }
   });
@@ -988,9 +1001,10 @@ const CONFIG = {
     if (e.key === "Escape") {
       var openBtn = document.querySelector(".nav-toggle[aria-expanded='true']");
       if (openBtn) {
+        var nav = openBtn.closest(".nav");
         openBtn.setAttribute("aria-expanded", "false");
         openBtn.setAttribute("aria-label", "Open navigation");
-        navbar.setAttribute("data-mobile-open", "false");
+        nav.setAttribute("data-mobile-open", "false");
         document.body.style.overflow = "";
       }
     }
