@@ -51,6 +51,7 @@ body{font-family:var(--sans);font-weight:300;font-size:1.0625rem;line-height:1.7
 body[data-room]{background:var(--bg);color:var(--fg)}
 body[data-room="personal"]{background:linear-gradient(color-mix(in srgb,var(--ink) 30%,transparent) 0,color-mix(in srgb,var(--ink) 20%,transparent) 100%),url('assets/universe-scapes-bg-noir.png') center/cover no-repeat fixed;background-color:var(--ink)}
 body[data-room="business"]{background:linear-gradient(color-mix(in srgb,var(--graphite) 48%,transparent),color-mix(in srgb,var(--graphite) 58%,transparent)),url('assets/universe-scapes-bg-crimson.png') center/cover no-repeat fixed;background-color:var(--graphite)}
+[data-room="business"] .hero-glass{backdrop-filter:none;-webkit-backdrop-filter:none}
 img{max-width:100%;display:block}
 a{color:inherit}
 :focus-visible{outline:2px solid var(--crimson);outline-offset:3px}
