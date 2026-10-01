@@ -1,5 +1,5 @@
 {
-  "buildCommand": "sed \"s|__SITE__|https://${VERCEL_PROJECT_PRODUCTION_URL:-$VERCEL_URL}|g\" index.html > index.html.tmp && mv index.html.tmp index.html",
+  "buildCommand": "git lfs pull && sed \"s|__SITE__|https://${VERCEL_PROJECT_PRODUCTION_URL:-$VERCEL_URL}|g\" index.html > index.html.tmp && mv index.html.tmp index.html",
   "outputDirectory": ".",
   "cleanUrls": true,
   "rewrites": [
