@@ -52,7 +52,7 @@ body{font-family:var(--sans);font-weight:300;font-size:1.0625rem;line-height:1.7
 body[data-room]{background:var(--bg);color:var(--fg)}
 body[data-room="personal"]{background:linear-gradient(color-mix(in srgb,var(--ink) 30%,transparent) 0,color-mix(in srgb,var(--ink) 20%,transparent) 100%),url('assets/universe-scapes-bg-noir.png') center/cover no-repeat fixed;background-color:var(--ink)}
 body[data-room="business"]{background:linear-gradient(color-mix(in srgb,var(--graphite) 48%,transparent),color-mix(in srgb,var(--graphite) 58%,transparent)),url('assets/universe-scapes-bg-crimson.png') center/cover no-repeat fixed;background-color:var(--graphite)}
-[data-room="business"] .hero-glass{backdrop-filter:none;-webkit-backdrop-filter:none}
+[data-room="business"] .hero-glass{z-index:1}
 img{max-width:100%;display:block}
 a{color:inherit}
 :focus-visible{outline:2px solid var(--crimson);outline-offset:3px}
@@ -87,8 +87,8 @@ section{padding:clamp(4rem,10vw,8rem) 0;border-top:1px solid var(--line)}
 
 .hero{border-top:0;padding-top:clamp(4rem,10vw,8rem);padding-bottom:clamp(5rem,12vw,8rem);position:relative;z-index:0;min-height:70vh}
 .hero::before{content:"";position:absolute;top:0;left:0;width:100vw;margin-left:calc(50% - 50vw);bottom:0;background:var(--ink);z-index:-2}
-.hero-video{position:absolute;top:0;left:0;width:100vw;margin-left:calc(50% - 50vw);bottom:0;height:100%;object-fit:cover;z-index:0;pointer-events:none}
-.hero-glass{position:absolute;top:0;left:0;width:100vw;margin-left:calc(50% - 50vw);bottom:0;background:linear-gradient(180deg,color-mix(in srgb,var(--bg) 4%,transparent) 0,color-mix(in srgb,var(--bg) 2%,transparent) 100%),radial-gradient(ellipse at center,transparent 62%,color-mix(in srgb,var(--ink) 1%,transparent) 100%);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);z-index:1;pointer-events:none}
+.hero-video{position:absolute;top:0;left:0;width:100vw;margin-left:calc(50% - 50vw);bottom:0;height:100%;object-fit:cover;z-index:1;pointer-events:none}
+.hero-glass{position:absolute;top:0;left:0;width:100vw;margin-left:calc(50% - 50vw);bottom:0;background:linear-gradient(180deg,color-mix(in srgb,var(--bg) 4%,transparent) 0,color-mix(in srgb,var(--bg) 2%,transparent) 100%),radial-gradient(ellipse at center,transparent 62%,color-mix(in srgb,var(--ink) 1%,transparent) 100%);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);z-index:0;pointer-events:none}
 .hero-text{background:rgba(12,12,12,0.88);border-radius:24px;padding:clamp(2.5rem,5vw,3.5rem);max-width:38rem;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.08);color:var(--paper);box-shadow:0 4px 40px rgba(0,0,0,0.5)}.hero-text .lab{color:var(--crimson);font-size:clamp(1.05rem,2.2vw,1.15rem)}.hero-text .sub{color:var(--paper);max-width:28rem;text-shadow:0 2px 8px rgba(0,0,0,0.4)}.hero-text h1{color:var(--paper);text-shadow:0 2px 8px rgba(0,0,0,0.4)}.hero-text .btn:not(.solid):not(.pdf){background:rgba(255,255,255,0.12);color:var(--paper);border-color:var(--paper)}.hero-text .btn:not(.solid):not(.pdf):hover{background:var(--paper);color:var(--ink)}.hero-text .btn.solid{color:var(--paper);border-color:var(--paper)}.hero-text .btn.pdf{color:var(--ink);border-color:var(--ink)}
 .hero::after{content:"";position:absolute;bottom:0;left:0;width:100vw;margin-left:calc(50% - 50vw);border-top:1px solid var(--line);z-index:1}
 .hero-inner{padding:0 var(--pad-x);max-width:var(--max);margin:0 auto;width:100%;display:grid;gap:clamp(3rem,8vw,6rem);align-items:center;z-index:2}
@@ -192,7 +192,7 @@ footer{padding:2.5rem 0 calc(2.5rem + env(safe-area-inset-bottom));border-top:1p
   .story + .pull{text-align:left}
 }
 @media(max-width:44rem){
-  .intro{animation:none}.hero-glass{backdrop-filter:none;-webkit-backdrop-filter:none}}
+  .intro{animation:none}.hero-glass{backdrop-filter:none;-webkit-backdrop-filter:none;z-index:0}}
 @media print{header.nav,.btn,.pl{display:none}body{background:var(--paper);color:var(--ink)}}
 .gal{display:grid;grid-template-columns:repeat(auto-fit,minmax(10.5rem,1fr));gap:.75rem;margin:2.5rem 0}
 .gal img{width:100%;aspect-ratio:3/4;object-fit:cover}
@@ -526,7 +526,7 @@ footer{padding:2.5rem 0 calc(2.5rem + env(safe-area-inset-bottom));border-top:1p
         <div><dt>Based</dt><dd>Los Angeles</dd></div>
       </dl>
       <div class="duo"><img loading="lazy" src="assets/phielia-when.webp" alt="Phielia: when the moment is still yours"><img loading="lazy" src="assets/phielia-billboard.webp" alt="Phielia brand concept: Intelligence that helps people act before the moment is gone"></div>
-<div class="demo-wrap"><div class="demo-header"><span class="lab">Demo</span><h3>SEE PHIELIA IN MOTION</h3><p class="demo-sub">Real-time intelligence, before the moment is gone. A brief look at how Phielia listens, understands, guides, and captures the moments that matter inside live enterprise conversations.</p></div><div class="demo-video"><video muted preload="none" controls playsinline poster="assets/phielia-billboard.webp" style="background:var(--ink)"><source src="assets/phielia-demo.mp4" type="video/mp4"></video></div></div><div class="row row-center"><a class="btn pdf" href="https://phielia.com" rel="noopener">Visit phielia.com</a></div>
+<div class="demo-wrap"><div class="demo-header"><span class="lab">Demo</span><h3>SEE PHIELIA IN MOTION</h3><p class="demo-sub">Real-time intelligence, before the moment is gone. A brief look at how Phielia listens, understands, guides, and captures the moments that matter inside live enterprise conversations.</p></div><div class="demo-video"><video muted preload="metadata" controls playsinline poster="assets/phielia-billboard.webp" style="background:var(--ink)"><source src="assets/phielia-demo.mp4" type="video/mp4"></video></div></div><div class="row row-center"><a class="btn pdf" href="https://phielia.com" rel="noopener">Visit phielia.com</a></div>
     </section>
 
     <section id="b-frendz"><span class="lab">Alongside</span><h2>Frendz</h2><div class="fz"><img src="assets/frendz-icon.webp" alt="Frendz app icon" width="96" height="96"><p>A separate consumer venture: a social discovery app with profiles, swiping, chat, music and AI moderation. Better vibes, none of the noise. Launching October 31, 2026.</p></div>
@@ -852,7 +852,7 @@ const CONFIG = {
 (function () {
   var C = CONFIG, $ = function (q) { return document.querySelector(q); };
   document.querySelectorAll('.hero-video').forEach(function(v){v.playbackRate=0.5;if(v.play){v.play().catch(function(e){console.warn('Hero video play failed:',e)})}})
-  function fixVideo(){var views=document.querySelectorAll('.view');views.forEach(function(v){if(!v.hidden){var vids=v.querySelectorAll('.hero-video');vids.forEach(function(vEl){vEl.playbackRate=0.5;if(vEl.play){vEl.play().catch(function(e){console.warn('Video play failed:',e)})}}}})})();function resizeHeroVideos(){var views=document.querySelectorAll('.view');views.forEach(function(v){if(!v.hidden){var vids=v.querySelectorAll('.hero-video');vids.forEach(function(vEl){var hero=vEl.closest('.hero');if(hero&&hero.offsetHeight>0){vEl.style.height=hero.offsetHeight+'px'}})}})};requestAnimationFrame(function(){fixVideo();resizeHeroVideos()});var resizeTO;void function(){if(document.fonts&&document.fonts.ready){document.fonts.ready.then(resizeHeroVideos)}}();var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;if(!reduce){window.addEventListener('resize',function(){clearTimeout(resizeTO);resizeTO=setTimeout(resizeHeroVideos,150)})};window.addEventListener('hashchange',function(){setTimeout(fixVideo,150);setTimeout(resizeHeroVideos,150)});
+  function fixVideo(){var views=document.querySelectorAll('.view');views.forEach(function(v){if(!v.hidden){var vids=v.querySelectorAll('.hero-video');vids.forEach(function(vEl){vEl.playbackRate=0.5;if(vEl.play){vEl.play().catch(function(e){console.warn('Hero video play failed:',e)})}var hero=vEl.closest('.hero');if(hero&&hero.offsetHeight>0){vEl.style.height=hero.offsetHeight+'px'}})}});requestAnimationFrame(function(){var rv=document.querySelectorAll('.view');rv.forEach(function(v){if(!v.hidden){var vids=v.querySelectorAll('.hero-video');vids.forEach(function(vEl){if(vEl.play){vEl.play().catch(function(e){console.warn('Hero video play failed:',e)})}var hero=vEl.closest('.hero');if(hero&&hero.offsetHeight>0){vEl.style.height=hero.offsetHeight+'px'}})}})})}document.addEventListener('DOMContentLoaded',fixVideo);window.addEventListener('load',fixVideo);if(document.fonts&&document.fonts.ready){document.fonts.ready.then(fixVideo)}window.addEventListener('resize',function(){clearTimeout(window._rTO);window._rTO=setTimeout(fixVideo,150)});window.addEventListener('hashchange',function(){setTimeout(fixVideo,500)});
   var el = function (t, c, h) { var e = document.createElement(t); if (c) e.className = c; if (h != null) e.innerHTML = h; return e; };
   var last = "", grid, box = $("#people");
   C.people.forEach(function (p) {
