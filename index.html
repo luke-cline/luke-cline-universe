@@ -200,6 +200,7 @@ footer{padding:2.5rem 0 calc(2.5rem + env(safe-area-inset-bottom));border-top:1p
 .ppl{display:grid;gap:2.5rem 2rem;grid-template-columns:repeat(auto-fill,minmax(15.5rem,1fr));margin-top:2rem}
 .pp img{width:100%;aspect-ratio:4/5;object-fit:cover;filter:grayscale(1) contrast(1.05);transition:filter .6s;margin-bottom:1rem}
 .pp:hover img{filter:none}
+.pp--colorized img{filter:none}
 .pp.discipline{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:clamp(1.5rem,4vw,2.5rem);align-items:start;padding:clamp(1rem,3vw,1.5rem);border:1px solid var(--line);border-radius:clamp(.75rem,2vw,1rem);background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}.pp.discipline .content-card{display:flex;flex-direction:column;width:100%;max-width:28rem}.pp.discipline .content-card img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:clamp(.5rem,1.5vw,.75rem);margin-bottom:1rem}.pp.discipline h3{font-size:clamp(1.4rem,3vw,1.6rem);margin:0 0 .75rem}.pp.discipline p{font-size:1rem;margin-top:0}.pp.discipline .pp-videos{display:grid;gap:clamp(1.5rem,4vw,2.5rem);width:100%;max-width:32rem;margin:0 auto}.pp-video{position:relative;width:100%;max-width:32rem;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:clamp(.75rem,2vw,1rem);border:1px solid var(--line);margin:0 auto}.pp-video iframe{width:100%;height:100%;position:absolute;top:0;left:0;border:0;display:block;background:var(--ink)}
  .pp h3{position:relative;z-index:1;padding:1.25rem;border-radius:6px;border:1px solid var(--line);margin:0 0 .5rem;font-size:1.9rem;font-weight:500;line-height:1.1;font-family:var(--cursive);color:var(--stone)} .pp h3::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(color-mix(in srgb,var(--ink) 45%,transparent),color-mix(in srgb,var(--ink) 55%,transparent)),url('assets/universe-scapes-bg-noir.png') center/cover no-repeat;z-index:-1}
 .pp p{font-size:1rem;margin-top:.5rem;background-color:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);padding:1.25rem;border:1px solid var(--line);border-radius:6px}
@@ -1025,6 +1026,27 @@ const CONFIG = {
       }
     }
   });
+})();
+
+/* ==================== Scroll-based image colorization (mobile) ==================== */
+(function() {
+  var isMobile = window.matchMedia("(max-width: 44rem)").matches;
+  if (!isMobile) return;
+  var pps = document.querySelectorAll(".pp");
+  if (!pps.length) return;
+  function onScroll() {
+    var scrollY = window.pageYOffset || document.documentElement.scrollTop;
+    var viewportHeight = window.innerHeight;
+    pps.forEach(function(pp) {
+      var rect = pp.getBoundingClientRect();
+      var elementTop = rect.top + scrollY;
+      if (scrollY + viewportHeight * 0.6 > elementTop) {
+        pp.classList.add("pp--colorized");
+      }
+    });
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
 })();
 
 /* ==================== Liquid WebGL shader ==================== */
